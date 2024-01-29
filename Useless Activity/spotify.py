@@ -1,3 +1,8 @@
+"""
+Author: Michael John Andagan Lalim
+Date created: February ‎6, ‎2023, ‏‎9:03:06 AM
+Purpose: Listening to some tunes :)
+"""
 #opens spotify and plays a random playlist
 import pyautogui as pag, time as t,random as r
 t.sleep(2)
