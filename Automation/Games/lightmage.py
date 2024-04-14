@@ -8,55 +8,38 @@ Description:
 
 import pyautogui as pag
 import time as t
+import BackEnd
 
+from tkinter import *
+from tkinter import messagebox
+def typeOfAttack():
+    try:
+        typeClass = int(pag.prompt(text='1-Mage\n2-Pirate\n3-LightMage\n4-Eternal Inversionist',title='Type of attacks'))
+        if (3 <= typeClass <= 4):
+            typeOfAttack = int(pag.prompt(text='1-Basic Attacks\n2-Attack with Heals\n3-All Skills\n', title='Type of attacks'))
+        elif(1 <= typeClass <= 2):
+            typeOfAttack = int(pag.prompt(text='1-Basic Attacks\n2-All Skills\n', title='Type of attacks'))
+        else:
+            messagebox.showerror(title='Error: Value input of outscope', message='Please enter an integer within range')
+        return typeOfAttack
+    except ValueError:
+        pag.alert(text='Please enter a proper digit', title='Invalid Input', button='OK')
+def numO_Runs():
+    try:
+        typeClass = int(pag.prompt(text='Number of runs:\n',title='Run how many times?'))
+        return typeOfAttack
+    except ValueError:
+        pag.alert(text='Please enter a proper digit', title='Invalid Input', button='OK')
+    
 def main():
     #ask user (fool proof)
     x=True
     while (x):
         try:
             counter = 0
-            typeOfAttack = int(pag.prompt(text='Enter 1(no heals) or 2(with heals)', title='Type of attacks' , default=''))
-        
-            if (typeOfAttack == 1 or typeOfAttack == 2):
-                x=False
-            else:
-                pag.alert(text='Error: Out Of Scope', title='Invalid Input', button='OK')
+            attackType = typeOfAttack()
+            numRuns = numO_Runs()
         except ValueError:
             pag.alert(text='Please enter a proper digit', title='Invalid Input', button='OK')
-        
-        
-            
-    untilThisNum = int(pag.prompt(text='Number of runs', title='Runs: ', default=''))
-    t.sleep(2)
-    if (typeOfAttack == 1):
-        attacks(counter,untilThisNum)
-    else:
-        all_Skills(counter,untilThisNum)   
-            
-#only attakcs
-def attacks(counter,untilThisNum):
-    while (counter < untilThisNum ):
-        t.sleep(1)
-        pag.press('2')#auto attack: skill 
-        t.sleep(3)#cooldown
-        pag.press('3')#auto attack: skill 
-        t.sleep(3)#cooldown
-        pag.press('1')#auto attack
-        t.sleep(2)
-        counter += 1
-
-#attack and heal      
-def all_Skills(counter,userInterface):
-    while (counter < untilThisNum ):
-        t.sleep(1)
-        pag.hotkey('2')#auto attack: skill 
-        t.sleep(3)#cooldown
-        pag.hotkey('3')#auto attack: skill 
-        t.sleep(3)#cooldown
-        pag.hotkey('1')#auto attack
-        t.sleep(3)#cooldown
-        pag.hotkey('4')#auto heal
-        counter += 1
-        t.sleep(7) #giving time to cool down
 
 main()
