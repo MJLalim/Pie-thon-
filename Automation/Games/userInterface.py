@@ -1,122 +1,76 @@
-import pyautogui as pag, time as t
-# Import Module
-import tkinter
-import random
+"""
+Author: 
+    Michael John Andagan Lalim
+Description:
+    An app for AQW auto farming
+    TO DO:
+    --------
+    1. Buttons for the types of classes
+    2. Prompts user the number of runs ( stored in untilThisNum)
+    3. call the function with the right parameters
+Comment:
+    2024-04-14: 
+        "It's hard to start learning tkinter stuff, so I copied a code from github: credits @pralabhsaxena05
+        just edit some stuff up so you can actually use it"
+    2024-04-16:
+        "I deleted the code that I copied and copied a code from stackoverflow for quitting using a keyboard
+        stroke"
+"""
+#Python library
+import tkinter as tk
+import pyautogui as pag
+import time as t
+import threading
 
-root = tkinter.Tk()
+def basicAttack():
+    while is_running:
+        #1st skill
+        pag.press('t'); pag.press('2')
+        
+        #cooldown
+        coolDown()
 
-root.configure(bg='lightyellow')
+        #2nd skill
+        pag.press('t'); pag.press('3')
+        
+        #cooldown
+        coolDown()
+        
+        #3rd skill 
+        pag.press('t'); pag.press('4')
+        
+        #4th skill 
+        pag.press('t'); pag.press('5')
+        
+        #cooldown
+        coolDown()
 
-root.title('My To Do List')
+def coolDown():
+    for i in range(2):
+        if not is_running:
+            break
+        pag.press('t'); pag.press('1'); pag.press('1')
 
-root.geometry('270x250')
-
-tasks = []
-
-
-
-# Create functions
-
-def update_listbox():
-    # Clear the current list
-    clear_listbox()
-
-    #update items to list
-    for task in tasks:
-        lb_tasks.insert("end", task)
-
-def clear_listbox():
-    lb_tasks.delete(0,"end")
-
-
-def add_task():
-    # Get the task
-    task = txt_input.get()
-    # Append the task to list
-    if task != '':
-        tasks.append(task)
-        update_listbox()
+def toggle_attack(event=None):
+    global is_running
+    if is_running:
+        is_running = False
     else:
-        display['text'] = "Please enter a task!"
-    txt_input.delete(0,'end')
+        is_running = True
+        threading.Thread(target=basicAttack).start()
 
+root = tk.Tk()
+root.geometry("800x600")  # Set the size of the window to 800x600
+is_running = False
 
-def delete():
-    task = lb_tasks.get('active')
-    if task in tasks:
-        tasks.remove(task)
-    # Update list box
-    update_listbox()
+# Create a button that will call toggle_attack when clicked
+button = tk.Button(root, text="Toggle Attack", command=toggle_attack)
+button.pack()
 
-    display['text'] = "Task deleted!"
+# Bind a key (e.g., the 'Q' key) to start the attack
+root.bind('<Shift-q>', toggle_attack)
 
-def delete_all():
-    global tasks
-    # Clear the list
-    tasks = []
-
-    update_listbox()
-
-def choose_random():
-    task = random.choice(tasks)
-    display['text'] = task
-
-def number_of_task():
-    number_of_tasks = len(tasks)
-
-    msg = "Number of tasks : %s" %number_of_tasks
-    display['text'] = msg
-
-def exit():
-    quit()
-    
-
-#Create Buttons and List options
-
-title = tkinter.Label(root, text = "To-Do-List", bg='lightyellow')
-title.grid(row=0,column=0)
-
-
-display = tkinter.Label(root, text = "", bg='white')
-display.grid(row=0,column=1)
-
-
-txt_input = tkinter.Entry(root, width=15)
-txt_input.grid(row=1,column=1)
-
-
-btn_add_task = tkinter.Button(root, text = "Add Task", fg = 'black', bg = None, command = add_task)
-
-btn_add_task.grid(row=1,column=0)
-
-btn_delete = tkinter.Button(root, text = "Delete", fg = 'black', bg = None, command = delete)
-
-btn_delete.grid(row=2,column=0)
-
-
-btn_delete_all = tkinter.Button(root, text = "Delete All", fg = 'black', bg = None, command = delete_all)
-
-btn_delete_all.grid(row=3,column=0)
-
-
-btn_choose_random = tkinter.Button(root, text = "Choose Random", fg = 'black', bg = None, command = choose_random)
-
-btn_choose_random.grid(row=4,column=0)
-
-
-btn_number_of_task = tkinter.Button(root, text = "Number of Tasks", fg = 'black', bg = None, command = number_of_task)
-
-btn_number_of_task.grid(row=5,column=0)
-
-
-btn_close = tkinter.Button(root, text = "Exit", fg = 'black', bg = None, command = exit)
-
-btn_close.grid(row=6,column=0)
-
-
-lb_tasks = tkinter.Listbox(root)
-lb_tasks.grid(row=2,column=1,rowspan=7)
-
-
+# Bind a key (e.g., the 'E' key) to stop the attack
+root.bind('<Shift-e>', toggle_attack)
 
 root.mainloop()

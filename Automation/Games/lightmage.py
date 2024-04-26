@@ -13,6 +13,7 @@ import BackEnd
 from tkinter import *
 from tkinter import messagebox
 def typeOfAttack():
+    
     try:
         typeClass = int(pag.prompt(text='1-Mage\n2-Pirate\n3-LightMage\n4-Eternal Inversionist',title='Type of attacks'))
         if (3 <= typeClass <= 4):
@@ -42,4 +43,6 @@ def main():
         except ValueError:
             pag.alert(text='Please enter a proper digit', title='Invalid Input', button='OK')
 
-main()
+t.sleep(5)
+while True:
+    BackEnd.Eternal_Inversionist.allAttack()
